@@ -68,7 +68,7 @@ The server will run on http://localhost:5000 and the client on http://localhost:
 
 ## Contact 
 
-Feel free to contact me at mailto:ivarungupta7@gmail.com for any doubts or permissions.
+Feel free to contact me at ivarungupta7@gmail.com for any doubts or permissions.
 
 ## Thank You!!
 
