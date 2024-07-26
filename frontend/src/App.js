@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
+import sixSplitLogo from './SixSplit.png'; // Make sure to replace with your actual image path
 
 function App() {
   const [files, setFiles] = useState([]);
@@ -9,6 +10,7 @@ function App() {
   const [selectedImages, setSelectedImages] = useState([]);
   const [pdfReady, setPdfReady] = useState(false);
   const [showDeleteButton, setShowDeleteButton] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const cleanup = async () => {
@@ -38,6 +40,7 @@ function App() {
       return;
     }
 
+    setLoading(true);
     setProcessing(true);
     const formData = new FormData();
     files.forEach(file => formData.append('images', file));
@@ -55,6 +58,7 @@ function App() {
       alert('Error processing images');
     } finally {
       setProcessing(false);
+      setLoading(false);
     }
   };
 
@@ -75,12 +79,15 @@ function App() {
   };
 
   const handleGeneratePDF = async () => {
+    setLoading(true);
     try {
       await axios.post('http://localhost:5000/generate-pdf', { selectedImages });
       setPdfReady(true);
     } catch (error) {
       console.error('Error generating PDF:', error);
       alert('Error generating PDF');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -90,25 +97,14 @@ function App() {
 
   const handleImageDownload = async (imageUrl, partIndex) => {
     try {
-      // Fetch the image data
       const response = await fetch(`http://localhost:5000${imageUrl}`);
       const blob = await response.blob();
-
-      // Create a blob URL
       const blobUrl = window.URL.createObjectURL(blob);
-
-      // Create a temporary anchor element
       const link = document.createElement('a');
       link.href = blobUrl;
       link.download = `image-part-${partIndex + 1}.jpg`;
-
-      // Append to the document body
       document.body.appendChild(link);
-
-      // Programmatically click the link to trigger the download
       link.click();
-
-      // Remove the link from the document and revoke the blob URL
       document.body.removeChild(link);
       window.URL.revokeObjectURL(blobUrl);
     } catch (error) {
@@ -118,6 +114,7 @@ function App() {
   };
 
   const handleCleanup = async () => {
+    setLoading(true);
     try {
       await axios.post('http://localhost:5000/cleanup');
       setProcessedImages([]);
@@ -127,37 +124,55 @@ function App() {
     } catch (error) {
       console.error('Error during cleanup:', error);
       alert('Error cleaning up files');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>SixSplit</h1>
-        <p>Upload, Split, & Combine Carousels/Images into PDF</p>
+      {loading && <div className="loading-overlay">Processing...</div>}
+      <header className="main-header">
+        <div className="logo-container">
+          <img src={sixSplitLogo} alt="SixSplit Logo" className="header-logo" />
+        </div>
+        <nav className="main-nav">
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
       </header>
       <main>
+        <section className="hero">
+          <img src={sixSplitLogo} alt="SixSplit Logo" className="hero-logo" />
+          <p>Streamline Image Processing & PDF Creation</p>
+        </section>
         <section className="upload-section">
           <form onSubmit={handleSubmit}>
-            <div className="file-input-wrapper">
-              <input 
-                type="file" 
-                id="file-input" 
-                onChange={handleFileChange} 
-                accept="image/*" 
-                multiple 
-              />
-              <label htmlFor="file-input" className="file-input-label">
-                {files.length > 0 ? `${files.length} file(s) selected` : 'Choose Files'}
-              </label>
+            <div className="button-group">
+              <div className="file-input-wrapper">
+                <input 
+                  type="file" 
+                  id="file-input" 
+                  onChange={handleFileChange} 
+                  accept="image/*" 
+                  multiple 
+                />
+                <label htmlFor="file-input" className="file-input-label">
+                  {files.length > 0 ? `${files.length} file(s) selected` : 'Choose Files'}
+                </label>
+              </div>
+              <button 
+                type="submit" 
+                disabled={processing || files.length === 0} 
+                className="primary-button"
+              >
+                {processing ? 'Processing...' : 'Upload and Process'}
+              </button>
             </div>
-            <button 
-              type="submit" 
-              disabled={processing || files.length === 0} 
-              className="primary-button"
-            >
-              {processing ? 'Processing...' : 'Upload and Process'}
-            </button>
           </form>
         </section>
         
@@ -178,14 +193,16 @@ function App() {
                       src={`http://localhost:5000${img.imageUrl}`} 
                       alt={`${img.originalImage} - Part ${img.partIndex + 1}`} 
                     />
-                    <span>{`${img.originalImage} - Part ${img.partIndex + 1}`}</span>
+                    <div className="image-info">
+                      <span>{`${img.originalImage} - Part ${img.partIndex + 1}`}</span>
+                      <button 
+                        className="download-button"
+                        onClick={() => handleImageDownload(img.imageUrl, img.partIndex)}
+                      >
+                        Download
+                      </button>
+                    </div>
                   </label>
-                  <button 
-                    className="download-button"
-                    onClick={() => handleImageDownload(img.imageUrl, img.partIndex)}
-                  >
-                    Download
-                  </button>
                 </div>
               ))}
             </div>
