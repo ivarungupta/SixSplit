@@ -1,15 +1,18 @@
 :root {
-  --primary-color: #4a90e2;
-  --secondary-color: #f5a623;
-  --background-color: #f0f4f8;
-  --text-color: #333;
+  --primary-color: #6C63FF;
+  --secondary-color: #4CAF50;
+  --background-color: #121212;
+  --surface-color: #1E1E1E;
+  --on-surface-color: #E0E0E0;
+  --on-background-color: #FFFFFF;
+  --error-color: #CF6679;
   --border-radius: 8px;
 }
 
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: 'Roboto', 'Segoe UI', 'Arial', sans-serif;
   line-height: 1.6;
-  color: var(--text-color);
+  color: var(--on-background-color);
   background-color: var(--background-color);
   margin: 0;
   padding: 0;
@@ -28,18 +31,21 @@ body {
 
 h1 {
   color: var(--primary-color);
-  font-size: 3rem;
+  font-size: 3.5rem;
   margin-bottom: 10px;
+  font-weight: 700;
+  letter-spacing: -1px;
 }
 
 h2 {
-  color: var(--secondary-color);
+  color: var(--on-surface-color);
   font-size: 2rem;
   margin-bottom: 20px;
+  font-weight: 500;
 }
 
 .upload-section, .processed-images-section, .download-section {
-  background-color: white;
+  background-color: var(--surface-color);
   border-radius: var(--border-radius);
   padding: 30px;
   margin-bottom: 30px;
@@ -50,6 +56,7 @@ h2 {
   position: relative;
   overflow: hidden;
   display: inline-block;
+  margin-bottom: 20px;
 }
 
 .file-input-wrapper input[type=file] {
@@ -61,32 +68,52 @@ h2 {
 }
 
 .file-input-label {
-  background-color: var(--secondary-color);
-  color: white;
-  padding: 10px 20px;
+  background-color: var(--primary-color);
+  color: var(--on-background-color);
+  padding: 12px 24px;
   border-radius: var(--border-radius);
   cursor: pointer;
   display: inline-block;
-}
-
-.primary-button {
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  font-size: 1rem;
+  font-weight: 500;
   transition: background-color 0.3s ease;
 }
 
-.primary-button:hover {
-  background-color: #3a7bc8;
+.file-input-label:hover {
+  background-color: #5753D9;
+}
+
+.primary-button, .delete-button {
+  background-color: var(--primary-color);
+  color: var(--on-background-color);
+  border: none;
+  padding: 12px 24px;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.primary-button:hover, .delete-button:hover {
+  background-color: #5753D9;
+  transform: translateY(-2px);
+}
+
+.primary-button:active, .delete-button:active {
+  transform: translateY(0);
 }
 
 .primary-button:disabled {
-  background-color: #ccc;
+  background-color: #4A4A4A;
   cursor: not-allowed;
+}
+
+.delete-button {
+  background-color: var(--error-color);
+}
+
+.delete-button:hover {
+  background-color: #B54D5D;
 }
 
 .image-grid {
@@ -98,7 +125,7 @@ h2 {
 
 .image-item {
   position: relative;
-  background-color: #f9f9f9;
+  background-color: var(--surface-color);
   border-radius: var(--border-radius);
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -131,7 +158,8 @@ h2 {
 .image-item span {
   padding: 10px;
   text-align: center;
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--on-surface-color);
 }
 
 .download-button {
@@ -139,41 +167,23 @@ h2 {
   bottom: 10px;
   right: 10px;
   background-color: var(--secondary-color);
-  color: white;
+  color: var(--on-background-color);
   border: none;
-  padding: 5px 10px;
+  padding: 6px 12px;
   border-radius: var(--border-radius);
   cursor: pointer;
   font-size: 0.8rem;
-  transition: background-color 0.3s ease;
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.1s ease;
 }
 
 .download-button:hover {
-  background-color: #d48c1f;
+  background-color: #45a049;
+  transform: translateY(-2px);
 }
 
-footer {
-  text-align: center;
-  margin-top: 40px;
-  color: #666;
-}
-
-@media (max-width: 768px) {
-  .App {
-    padding: 10px;
-  }
-
-  h1 {
-    font-size: 2rem;
-  }
-
-  h2 {
-    font-size: 1.5rem;
-  }
-
-  .image-grid {
-    grid-template-columns: 1fr;
-  }
+.download-button:active {
+  transform: translateY(0);
 }
 
 .button-group {
@@ -183,17 +193,31 @@ footer {
   margin-top: 20px;
 }
 
-.delete-button {
-  background-color: #e74c3c;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
+footer {
+  text-align: center;
+  margin-top: 40px;
+  color: var(--on-surface-color);
+  font-size: 0.9rem;
 }
 
-.delete-button:hover {
-  background-color: #c0392b;
+@media (max-width: 768px) {
+  .App {
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .image-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
 }

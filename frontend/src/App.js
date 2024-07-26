@@ -134,7 +134,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>SixSplit</h1>
-        <p>Upload, Split, and Combine Images into PDF</p>
+        <p>Upload, Split, & Combine Carousels/Images into PDF</p>
       </header>
       <main>
         <section className="upload-section">
