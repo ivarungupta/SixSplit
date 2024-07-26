@@ -8,6 +8,7 @@ function App() {
   const [processedImages, setProcessedImages] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
   const [pdfReady, setPdfReady] = useState(false);
+  const [showDeleteButton, setShowDeleteButton] = useState(false);
 
   useEffect(() => {
     const cleanup = async () => {
@@ -48,6 +49,7 @@ function App() {
         }
       });
       fetchProcessedImages();
+      setShowDeleteButton(true);
     } catch (error) {
       console.error('Error uploading files:', error);
       alert('Error processing images');
@@ -86,13 +88,46 @@ function App() {
     window.location.href = 'http://localhost:5000/download-pdf';
   };
 
-  const handleImageDownload = (imageUrl, originalImage, partIndex) => {
-    const link = document.createElement('a');
-    link.href = `http://localhost:5000${imageUrl}`;
-    link.download = `img-part-${originalImage}-${partIndex + 1}.jpg`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const handleImageDownload = async (imageUrl, partIndex) => {
+    try {
+      // Fetch the image data
+      const response = await fetch(`http://localhost:5000${imageUrl}`);
+      const blob = await response.blob();
+
+      // Create a blob URL
+      const blobUrl = window.URL.createObjectURL(blob);
+
+      // Create a temporary anchor element
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = `image-part-${partIndex + 1}.jpg`;
+
+      // Append to the document body
+      document.body.appendChild(link);
+
+      // Programmatically click the link to trigger the download
+      link.click();
+
+      // Remove the link from the document and revoke the blob URL
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error('Error downloading image:', error);
+      alert('Error downloading image');
+    }
+  };
+
+  const handleCleanup = async () => {
+    try {
+      await axios.post('http://localhost:5000/cleanup');
+      setProcessedImages([]);
+      setSelectedImages([]);
+      setPdfReady(false);
+      setShowDeleteButton(false);
+    } catch (error) {
+      console.error('Error during cleanup:', error);
+      alert('Error cleaning up files');
+    }
   };
 
   return (
@@ -147,16 +182,23 @@ function App() {
                   </label>
                   <button 
                     className="download-button"
-                    onClick={() => handleImageDownload(img.imageUrl, img.originalImage, img.partIndex)}
+                    onClick={() => handleImageDownload(img.imageUrl, img.partIndex)}
                   >
                     Download
                   </button>
                 </div>
               ))}
             </div>
-            <button onClick={handleGeneratePDF} className="primary-button">
-              Generate PDF
-            </button>
+            <div className="button-group">
+              <button onClick={handleGeneratePDF} className="primary-button">
+                Generate PDF
+              </button>
+              {showDeleteButton && (
+                <button onClick={handleCleanup} className="delete-button">
+                  Delete All Images
+                </button>
+              )}
+            </div>
           </section>
         )}
         

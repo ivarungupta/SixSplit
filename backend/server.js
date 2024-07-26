@@ -9,7 +9,7 @@ const cors = require('cors');
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use('/temp', express.static('temp'));
+app.use('/temp', express.static(path.join(__dirname, 'temp')));
 
 const upload = multer({ dest: 'uploads/' });
 
@@ -33,8 +33,11 @@ app.post('/upload', upload.array('images', 2), async (req, res) => {
           .toBuffer();
         
         const tempFilename = `temp_${Date.now()}_${i}.jpg`;
-        await sharp(part).toFile(path.join(__dirname, 'temp', tempFilename));
+        const tempFilePath = path.join(__dirname, 'temp', tempFilename);
+        await sharp(part).toFile(tempFilePath);
         
+        console.log(`Saved file: ${tempFilePath}`);
+
         processedImages.push({
           buffer: part,
           originalImage: file.originalname,
@@ -108,6 +111,12 @@ app.post('/cleanup', (req, res) => {
     processedImages = [];
     res.send('Cleanup completed');
   });
+});
+
+app.get('/temp/:filename', (req, res) => {
+  const filename = req.params.filename;
+  const filePath = path.join(__dirname, 'temp', filename);
+  res.sendFile(filePath);
 });
 
 const port = process.env.PORT || 5000;
