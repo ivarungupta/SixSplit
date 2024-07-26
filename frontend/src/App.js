@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
 import sixSplitLogo from './SixSplit.png'; // Make sure to replace with your actual image path
+import sixSplitLogoheader from './white.png';
 
 function App() {
   const [files, setFiles] = useState([]);
@@ -134,7 +135,7 @@ function App() {
       {loading && <div className="loading-overlay">Processing...</div>}
       <header className="main-header">
         <div className="logo-container">
-          <img src={sixSplitLogo} alt="SixSplit Logo" className="header-logo" />
+          <img src={sixSplitLogoheader} alt="SixSplit Logo" className="header-logo" />
         </div>
         <nav className="main-nav">
           <ul>
@@ -148,7 +149,7 @@ function App() {
       <main>
         <section className="hero">
           <img src={sixSplitLogo} alt="SixSplit Logo" className="hero-logo" />
-          <p>Streamline Image Processing & PDF Creation</p>
+          <h2>Crop AMAZING Carousels in just ONE click ↗</h2>
         </section>
         <section className="upload-section">
           <form onSubmit={handleSubmit}>
@@ -228,7 +229,7 @@ function App() {
         )}
       </main>
       <footer>
-        <p>&copy; 2024 SixSplit. All rights reserved.</p>
+        <p>&copy; 2024 SixSplit | All rights reserved</p>
       </footer>
     </div>
   );
