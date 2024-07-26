@@ -135,14 +135,14 @@ function App() {
       {loading && <div className="loading-overlay">Processing...</div>}
       <header className="main-header">
         <div className="logo-container">
-          <img src={sixSplitLogoheader} alt="SixSplit Logo" className="header-logo" />
+          <img src={sixSplitLogoheader} alt="SixSplit Logo" href="#" className="header-logo" />
         </div>
         <nav className="main-nav">
           <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="">HOME</a></li>
+            <li><a href="upload-section">SERVICES</a></li>
+            <li><a href="https://github.com/ivarungupta/SixSplit/blob/main/README.md" target='_blank'>ABOUT</a></li>
+            <li><a href="mailto:ivarungupta7@gmail.com">CONTACT</a></li>
           </ul>
         </nav>
       </header>
@@ -151,7 +151,7 @@ function App() {
           <img src={sixSplitLogo} alt="SixSplit Logo" className="hero-logo" />
           <h2>Crop AMAZING Carousels in just ONE click ↗</h2>
         </section>
-        <section className="upload-section">
+        <section className="upload-section" title='upload-section'>
           <form onSubmit={handleSubmit}>
             <div className="button-group">
               <div className="file-input-wrapper">

@@ -13,7 +13,9 @@ body {
   font-family: 'Roboto', 'Segoe UI', 'Arial', sans-serif;
   line-height: 1.6;
   color: var(--on-background-color);
-  background-color: var(--background-color);
+  background-color: black;
+  background-image: url(background.png);
+  background-size: 200px 200px;
   margin: 0;
   padding: 0;
 }
