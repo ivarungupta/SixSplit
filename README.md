@@ -2,7 +2,7 @@
 
 SixSplit is a web application that allows users to upload images, split them into parts, and combine the parts into a single PDF. The application provides a simple interface for managing images and generating PDFs.
 
-![Alt text](SixSplit,UI/UX.png)
+![Alt text](SixSplit,UIUX.png)
 
 ## Table of Contents
 
