@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './App.css';
-import sixSplitLogo from './SixSplit.png'; // Make sure to replace with your actual image path
+import sixSplitLogo from './SixSplit.png';
 import sixSplitLogoheader from './white.png';
 
 function App() {
@@ -12,6 +12,12 @@ function App() {
   const [pdfReady, setPdfReady] = useState(false);
   const [showDeleteButton, setShowDeleteButton] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  // New state for slider
+  const trackRef = useRef(null);
+  const [mouseDownAt, setMouseDownAt] = useState("0");
+  const [prevPercentage, setPrevPercentage] = useState("0");
+  const [percentage, setPercentage] = useState("0");
 
   useEffect(() => {
     const cleanup = async () => {
@@ -130,6 +136,41 @@ function App() {
     }
   };
 
+  // New functions for slider
+  const handleMouseDown = (e) => {
+    setMouseDownAt(e.clientX);
+  };
+
+  const handleMouseUp = () => {
+    setMouseDownAt("0");
+    setPrevPercentage(percentage);
+  };
+
+  const handleMouseMove = (e) => {
+    if (mouseDownAt === "0") return;
+
+    const mouseDelta = parseFloat(mouseDownAt) - e.clientX;
+    const maxDelta = window.innerWidth / 2;
+
+    const newPercentage = (mouseDelta / maxDelta) * -100;
+    const nextPercentageUnconstrained = parseFloat(prevPercentage) + newPercentage;
+    const nextPercentage = Math.max(Math.min(nextPercentageUnconstrained, 0), -100);
+
+    setPercentage(nextPercentage);
+
+    if (trackRef.current) {
+      trackRef.current.animate({
+        transform: `translate(${nextPercentage}%, -50%)`
+      }, { duration: 1200, fill: "forwards" });
+
+      for (const image of trackRef.current.getElementsByClassName("image")) {
+        image.animate({
+          objectPosition: `${100 + nextPercentage}% center`
+        }, { duration: 1200, fill: "forwards" });
+      }
+    }
+  };
+
   return (
     <div className="App">
       {loading && <div className="loading-overlay">Processing...</div>}
@@ -151,6 +192,29 @@ function App() {
           <img src={sixSplitLogo} alt="SixSplit Logo" className="hero-logo" />
           <h2>Crop AMAZING Carousels in just ONE click ↗</h2>
         </section>
+
+        {/* New slider section */}
+        <section className="slider-section">
+          <div 
+            id="image-track" 
+            ref={trackRef}
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
+            onMouseMove={handleMouseMove}
+          >
+            <img className="image" src="img/1.png" draggable="false" alt="Slider image 1" />
+            <img className="image" src="img/2.png" draggable="false" alt="Slider image 2" />
+            <img className="image" src="img/3.png" draggable="false" alt="Slider image 3" />
+            <img className="image" src="img/4.png" draggable="false" alt="Slider image 4" />
+            <img className="image" src="img/5.png" draggable="false" alt="Slider image 5" />
+            <img className="image" src="img/6.png" draggable="false" alt="Slider image 6" />
+            <img className="image" src="img/7.png" draggable="false" alt="Slider image 7" />
+            <img className="image" src="img/8.png" draggable="false" alt="Slider image 8" />
+            <img className="image" src="img/9.png" draggable="false" alt="Slider image 9" />
+            <img className="image" src="img/10.png" draggable="false" alt="Slider image 10" />
+          </div>
+        </section>
+
         <section className="upload-section" title='upload-section'>
           <form onSubmit={handleSubmit}>
             <div className="button-group">

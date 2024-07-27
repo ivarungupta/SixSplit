@@ -430,4 +430,36 @@ footer {
 }
 
 
+/* slider part of css*/
+
+/* ... (existing styles) ... */
+
+.slider-section {
+  margin-top: 30px;
+  overflow: hidden;
+  position: relative;
+  height: 56vmin;
+  margin-bottom: 140px;
+}
+
+#image-track {
+  display: flex;
+  gap: 4vmin;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(0%, -50%); 
+  user-select: none;
+}
+
+#image-track > .image {
+  width: 40vmin;
+  height: 56vmin;
+  object-fit: cover;
+  object-position: 100% center;
+}
+
+/* ... (rest of your existing styles) ... */
+
+/* slider part of css over*/
 
