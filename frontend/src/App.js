@@ -204,15 +204,19 @@ function App() {
           >
             <img className="image" src="img/1.png" draggable="false" alt="Slider image 1" />
             <img className="image" src="img/2.png" draggable="false" alt="Slider image 2" />
-            <img className="image" src="img/3.png" draggable="false" alt="Slider image 3" />
+            <img className="image" src="img/5.png" draggable="false" alt="Slider image 3" />
             <img className="image" src="img/4.png" draggable="false" alt="Slider image 4" />
-            <img className="image" src="img/5.png" draggable="false" alt="Slider image 5" />
+            <img className="image" src="img/3.png" draggable="false" alt="Slider image 5" />
             <img className="image" src="img/6.png" draggable="false" alt="Slider image 6" />
             <img className="image" src="img/7.png" draggable="false" alt="Slider image 7" />
             <img className="image" src="img/8.png" draggable="false" alt="Slider image 8" />
             <img className="image" src="img/9.png" draggable="false" alt="Slider image 9" />
             <img className="image" src="img/10.png" draggable="false" alt="Slider image 10" />
           </div>
+        </section>
+
+        <section className="slide-text-section">
+          <h2>← SLIDE TO CHECK OUT! →</h2>
         </section>
 
         <section className="upload-section" title='upload-section'>

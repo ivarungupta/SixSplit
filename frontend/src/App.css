@@ -319,10 +319,26 @@ footer {
     }
 }
 
+/* logo in between */
 .hero img {
   width: 60%;
   height: 250px;
   object-fit: cover;
+  animation: float 6s ease-in-out infinite;
+
+}
+
+/* floating animation */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
 }
 
 .image-item {
@@ -435,11 +451,11 @@ footer {
 /* ... (existing styles) ... */
 
 .slider-section {
-  margin-top: 30px;
+  margin-top: 70px;
   overflow: hidden;
   position: relative;
   height: 56vmin;
-  margin-bottom: 140px;
+  margin-bottom: 1px;
 }
 
 /*to change the position, middle/one side mai slider*/
@@ -464,3 +480,28 @@ footer {
 
 /* slider part of css over*/
 
+/* the slide text */
+.slide-text-section {
+  text-align: center;
+  padding: 20px 0;
+  margin-bottom: 80px;
+}
+
+.slide-text-section h2 {
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  background: linear-gradient(
+    to right,
+    #7953cd 20%,
+    #00affa 30%,
+    #0190cd 70%,
+    #764ada 80%,
+    rgb(56, 229, 229) 20%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-fill-color: transparent;
+  background-size: 500% auto;
+  animation: textShine 5s ease-in-out infinite alternate;
+}
