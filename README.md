@@ -17,7 +17,7 @@ SixSplit is a web application that allows users to upload images, split them int
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/yourusername/sixsplit.git
+   git clone https://github.com/ivarungupta7/SixSplit.git
    cd sixsplit
    ```
 2. Install server dependencies:
